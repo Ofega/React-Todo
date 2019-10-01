@@ -6,7 +6,7 @@ export default class TodoList extends Component {
 
     render() {
         return (
-            <ul>
+            <ol className="todo-list">
                 {
                     this.props.todos.map(({ id, task, completed }) => <Todo 
                         key={id} 
@@ -16,7 +16,7 @@ export default class TodoList extends Component {
                         markCompleted={this.props.markCompleted} 
                     />)
                 }
-            </ul>
+            </ol>
         )
     }
 }

@@ -29,7 +29,6 @@ class App extends React.Component {
     this.setState(prevState => ({
       todos: prevState.todos.map(item => {
         if (item.id === e.target.id) {
-          console.log(item);
           return { 
             task: item.task, 
             id: item.id, 
@@ -37,25 +36,28 @@ class App extends React.Component {
           };
         }
 
-        console.log(item);
         return item;
       })
-    }))
+    }), () => {
+      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    })
   }
 
   addTodo = (e) => {
     e.preventDefault();
-
-    this.setState(prevState => ({
-      todos: [...prevState.todos, {
-        task: this.state.newTask,
-        id: uuid(),
-        completed: false
-      }],
-      newTask: ''
-    }), () => {
-      localStorage.setItem('todos', JSON.stringify(this.state.todos));
-    })
+    
+    if(this.state.newTask !== '') {
+      this.setState(prevState => ({
+        todos: [...prevState.todos, {
+          task: this.state.newTask,
+          id: uuid(),
+          completed: false
+        }],
+        newTask: ''
+      }), () => {
+        localStorage.setItem('todos', JSON.stringify(this.state.todos));
+      })
+    }
   }
 
   clearCompleted = (e) => {
@@ -68,19 +70,22 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="app-container">
         <h2>Welcome to your Todo App!</h2>
-        <TodoForm 
-          newTask={this.state.newTask} 
-          addTodo={this.addTodo} 
-          clearCompleted={this.clearCompleted} 
-          handleInputChange={this.handleInputChange}
-        />
 
-        <TodoList 
-          todos={this.state.todos} 
-          markCompleted={this.markCompleted} 
-        />
+        <div className="app-content">
+          <TodoForm 
+            newTask={this.state.newTask} 
+            addTodo={this.addTodo} 
+            clearCompleted={this.clearCompleted} 
+            handleInputChange={this.handleInputChange}
+          />
+
+          <TodoList 
+            todos={this.state.todos} 
+            markCompleted={this.markCompleted} 
+          />
+        </div>
       </div>
     );
   }

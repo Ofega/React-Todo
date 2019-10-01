@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 export default class TodoForm extends Component {
     render() {
         return (
-            <form>
+            <form className="todo-form">
                 <input
                     type="text" 
                     placeholder="Enter your todo here" 
@@ -13,7 +13,7 @@ export default class TodoForm extends Component {
                     onChange={this.props.handleInputChange}
                 />
 
-                <div>
+                <div class="todo-form-btns">
                     <button onClick={this.props.addTodo}>Add Todo</button>
                     <button onClick={this.props.clearCompleted}>Clear Completed</button>
                 </div>
