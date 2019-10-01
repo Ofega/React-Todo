@@ -28,13 +28,17 @@ class App extends React.Component {
     
     this.setState(prevState => ({
       todos: prevState.todos.map(item => {
-        if (item.id !== e.target.id) {
+        if (item.id === e.target.id) {
           console.log(item);
-          return item;
+          return { 
+            task: item.task, 
+            id: item.id, 
+            completed: true 
+          };
         }
 
         console.log(item);
-        return { id: item.id, task: item.task, completed: true };
+        return item;
       })
     }))
   }
@@ -54,8 +58,12 @@ class App extends React.Component {
     })
   }
 
-  clearCompleted = () => {
+  clearCompleted = (e) => {
+    e.preventDefault();
 
+    this.setState(prevState => ({
+      todos: prevState.todos.filter(item => item.completed === false)
+    }))
   }
 
   render() {
