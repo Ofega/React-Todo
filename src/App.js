@@ -68,7 +68,9 @@ class App extends React.Component {
 
     this.setState(prevState => ({
       todos: prevState.todos.filter(item => item.completed === false)
-    }))
+    }), () => {
+      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    })
   }
 
 
