@@ -3,6 +3,7 @@ import uuid from 'uuid';
 
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import SearchForm from './components/SearchComponent/SearchForm';
 
 
 class App extends React.Component {
@@ -12,10 +13,12 @@ class App extends React.Component {
 
     this.state = {
       todos: JSON.parse(localStorage.getItem('todos')) || [],
-      newTask: ''
+      newTask: '',
+      searchTerm: ''
     }
   }
 
+  // TODO FUNCTIONALITY HANDLER FUNCTIONS
   handleInputChange = (e) => {
     this.setState({
       ...this.state,
@@ -68,6 +71,31 @@ class App extends React.Component {
     }))
   }
 
+
+  // SEARCH FUNCTIONALITY HANDLER FUNCTIONS
+  handleSearchInputChange = (e) => {
+    this.setState({
+      ...this.state,
+      searchTerm: e.target.value
+    }, () => {
+      this.setState(prevState => ({
+        todos: prevState.todos.filter(item => {
+          return item.task.includes(this.state.searchTerm)
+        })
+      }))
+    })
+  }
+
+  handleSearchFormSubmit = (e) => {
+    e.preventDefault();
+    this.setState(prevState => ({
+      todos: prevState.todos.filter(item => {
+        if(this.state.searchTerm === '') return item;
+        return item.task.includes(this.state.searchTerm);
+      })
+    }))
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -79,6 +107,12 @@ class App extends React.Component {
             addTodo={this.addTodo} 
             clearCompleted={this.clearCompleted} 
             handleInputChange={this.handleInputChange}
+          />
+
+          <SearchForm 
+            searchTerm={this.state.searchTerm} 
+            handleSearchInputChange={this.handleSearchInputChange}
+            handleSearchFormSubmit={this.handleSearchFormSubmit}
           />
 
           <TodoList 

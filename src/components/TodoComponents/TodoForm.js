@@ -13,7 +13,7 @@ export default class TodoForm extends Component {
                     onChange={this.props.handleInputChange}
                 />
 
-                <div class="todo-form-btns">
+                <div className="todo-form-btns">
                     <button onClick={this.props.addTodo}>Add Todo</button>
                     <button onClick={this.props.clearCompleted}>Clear Completed</button>
                 </div>
